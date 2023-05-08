@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://labdigitalsystem-lds.web.app/",
+    origin: "https://labdigitalsystem-lds.web.app",
     preflightContinue: true,
     credentials: true,
   })
