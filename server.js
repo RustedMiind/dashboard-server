@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const db = require("./db");
+const cors = require("cors");
 require("dotenv").config();
 // Importing Routes and Models
 const userRoutes = require("./routes/userRoutes");
@@ -14,6 +15,7 @@ const app = express();
 // Middlewares :
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
 // Connect to Database :
 db((err) => {
