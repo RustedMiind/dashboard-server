@@ -15,7 +15,12 @@ const app = express();
 // Middlewares :
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    preflightContinue: true,
+    credentials: true,
+  })
+);
 
 // Connect to Database :
 db((err) => {
