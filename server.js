@@ -21,7 +21,7 @@ db((err) => {
     console.log(err);
     return;
   }
-  app.listen(3100);
+  app.listen(3000);
   console.log(
     "||||||||||||  LISTENING ON http://localhost:3100/  ||||||||||||"
   );
