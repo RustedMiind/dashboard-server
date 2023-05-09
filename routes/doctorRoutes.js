@@ -12,5 +12,6 @@ router.get("/check", doctorController.checkdoctor);
 router.get("/newtickets", doctorController.getnewtickets);
 router.get("/approveticket/:id", doctorAuth, doctorController.approveticket);
 router.get("/deleteticket/:id", doctorAuth, doctorController.deleteTicket);
+router.get("/test", doctorController.testcheck);
 
 module.exports = router;

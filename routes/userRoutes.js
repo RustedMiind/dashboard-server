@@ -10,5 +10,6 @@ router.get("/checkuser", userController.checkuser);
 router.post("/user/new", userController.register);
 router.get("/users", doctorAuth, userController.getall);
 router.get("/doctors", userAuth, userController.getalldoctors);
+router.get("/tickets", userAuth, userController.getusertickets);
 
 module.exports = router;

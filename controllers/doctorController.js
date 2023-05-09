@@ -42,7 +42,7 @@ module.exports.getnewtickets = function (req, res) {
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("doctorjwt", "temp", { httpOnly: true, maxAge: 100 });
+      res.cookie("doctorjwt", "temp", { maxAge: 100 });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {
@@ -119,13 +119,18 @@ module.exports.deleteTicket = function (req, res) {
     });
 };
 
+module.exports.testcheck = (req, res) => {
+  res.cookie("temp", "01095574449", { maxAge: 100000 });
+  res.status(200).json({ data: "Hello" });
+};
+
 module.exports.checkdoctor = (req, res) => {
   const token = req.cookies.doctorjwt;
   // Error code 401 Unauthorized
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("doctorjwt", "temp", { httpOnly: true, maxAge: 100 });
+      res.cookie("doctorjwt", "temp", { maxAge: 100 });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {
@@ -148,11 +153,12 @@ module.exports.checkdoctor = (req, res) => {
                 else res.status(403).json({ message: "Doctor is banned" });
               })
               .catch((err) => {
-                res.status(403).json({ message: "No Login" });
-                res.cookie("doctorjwt", "temp", {
-                  httpOnly: true,
-                  maxAge: 100,
-                });
+                res
+                  .status(403)
+                  .json({ message: "No Login" })
+                  .cookie("doctorjwt", "temp", {
+                    maxAge: 100,
+                  });
                 console.log(err);
               });
           }
@@ -168,8 +174,10 @@ module.exports.login = (req, res) => {
   const { username, password } = req.body;
   Doctor.login(username, password)
     .then((doctor) => {
-      res.cookie("doctorjwt", doctor.token, { httpOnly: true, maxAge: DAY });
-      res.json(doctor.doctor);
+      res
+        .status(200)
+        .cookie("doctorjwt", doctor.token, { maxAge: DAY })
+        .json(doctor.doctor);
     })
     .catch((err) => {
       res.status(400).json(handleErrors(err));
@@ -181,7 +189,7 @@ module.exports.update = (req, res) => {
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("doctorjwt", "temp", { httpOnly: true, maxAge: 100 });
+      res.cookie("doctorjwt", "temp", { maxAge: 100 });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {
@@ -202,7 +210,6 @@ module.exports.update = (req, res) => {
               .catch((err) => {
                 res.status(403).json({ message: "No Login" });
                 res.cookie("doctorjwt", "temp", {
-                  httpOnly: true,
                   maxAge: 100,
                 });
                 console.log(err);

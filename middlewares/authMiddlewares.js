@@ -60,14 +60,14 @@ function doctorAuth(req, res, next) {
               res
                 .status(403)
 
-                .cookie("adminjwt", "", { httpOnly: true, maxAge: 100 })
+                .cookie("adminjwt", "", { maxAge: 100 })
                 .json({ message: "You dont have the role for this action" });
             });
         })
         .catch((err) => {
           res
             .status(403)
-            .cookie("doctorjwt", "", { httpOnly: true, maxAge: 100 })
+            .cookie("doctorjwt", "", { maxAge: 100 })
             .json({ message: "Invalid Token Login To Proceed" });
         });
     }

@@ -9,7 +9,7 @@ module.exports.newticket = async function (req, res) {
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("jwt", "temp", { httpOnly: true, maxAge: 100 });
+      res.cookie("jwt", "temp", { maxAge: 100 });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {

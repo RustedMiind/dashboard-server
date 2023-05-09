@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const db = require("./db");
 const cors = require("cors");
@@ -13,15 +12,20 @@ const ticketRoutes = require("./routes/ticketRoutes");
 const app = express();
 
 // Middlewares :
-app.use(express.json());
-app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://labdigitalsystem-lds.web.app",
     preflightContinue: true,
+    origin: ["http://localhost:3000", "https://labdigitalsystem-lds.web.app"],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
   })
 );
+app.use(function (req, res, next) {
+  res.header("Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure");
+  next();
+});
+app.use(cookieParser());
+app.use(express.json());
 
 // Connect to Database :
 db((err) => {
@@ -29,7 +33,7 @@ db((err) => {
     console.log(err);
     return;
   }
-  app.listen(3000);
+  app.listen(3100);
   console.log(
     "||||||||||||  LISTENING ON http://localhost:3100/  ||||||||||||"
   );
