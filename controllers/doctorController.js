@@ -42,7 +42,10 @@ module.exports.getnewtickets = function (req, res) {
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("doctorjwt", "temp", { maxAge: 100 });
+      res.cookie("doctorjwt", "temp", {
+        maxAge: 100,
+        ...{ sameSite: "none", secure: true },
+      });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {
@@ -120,7 +123,10 @@ module.exports.deleteTicket = function (req, res) {
 };
 
 module.exports.testcheck = (req, res) => {
-  res.cookie("temp", "01095574449", { maxAge: 100000 });
+  res.cookie("temp", "01095574449", {
+    maxAge: 100000,
+    ...{ sameSite: "none", secure: true },
+  });
   res.status(200).json({ data: "Hello" });
 };
 
@@ -130,7 +136,10 @@ module.exports.checkdoctor = (req, res) => {
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("doctorjwt", "temp", { maxAge: 100 });
+      res.cookie("doctorjwt", "temp", {
+        maxAge: 100,
+        ...{ sameSite: "none", secure: true },
+      });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {
@@ -176,7 +185,10 @@ module.exports.login = (req, res) => {
     .then((doctor) => {
       res
         .status(200)
-        .cookie("doctorjwt", doctor.token, { maxAge: DAY })
+        .cookie("doctorjwt", doctor.token, {
+          maxAge: DAY,
+          ...{ sameSite: "none", secure: true },
+        })
         .json(doctor.doctor);
     })
     .catch((err) => {
@@ -189,7 +201,10 @@ module.exports.update = (req, res) => {
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("doctorjwt", "temp", { maxAge: 100 });
+      res.cookie("doctorjwt", "temp", {
+        maxAge: 100,
+        ...{ sameSite: "none", secure: true },
+      });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {
@@ -211,6 +226,7 @@ module.exports.update = (req, res) => {
                 res.status(403).json({ message: "No Login" });
                 res.cookie("doctorjwt", "temp", {
                   maxAge: 100,
+                  ...{ sameSite: "none", secure: true },
                 });
                 console.log(err);
               });

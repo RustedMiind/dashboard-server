@@ -15,7 +15,11 @@ const app = express();
 app.use(
   cors({
     preflightContinue: true,
-    origin: ["http://localhost:3000", "https://labdigitalsystem-lds.web.app"],
+    origin: [
+      "http://localhost:3000",
+      "https://labdigitalsystem-lds.web.app",
+      "https://labdigitalsystem-lds.firebaseapp.com/",
+    ],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
   })
@@ -42,3 +46,5 @@ db((err) => {
 app.use("/api", userRoutes);
 app.use("/controlpanel", doctorRoutes);
 app.use("/ticket", ticketRoutes);
+
+module.exports.cookieObtions = { sameSite: "none", secure: true };

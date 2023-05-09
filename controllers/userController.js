@@ -47,7 +47,10 @@ module.exports.login = (req, res) => {
   const { phone, password } = req.body;
   User.login(phone, password)
     .then((user) => {
-      res.cookie("jwt", user.token, { maxAge: DAY });
+      res.cookie("jwt", user.token, {
+        maxAge: DAY,
+        ...{ sameSite: "none", secure: true },
+      });
       res.json(user.user);
     })
     .catch((err) => {
@@ -61,7 +64,10 @@ module.exports.getusertickets = function (req, res) {
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("jwt", "temp", { maxAge: 100 });
+      res.cookie("jwt", "temp", {
+        maxAge: 100,
+        ...{ sameSite: "none", secure: true },
+      });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {
@@ -97,14 +103,20 @@ module.exports.getusertickets = function (req, res) {
 };
 
 module.exports.logout = (req, res) => {
-  res.cookie("jwt", "LogOutTokennnn", { maxAge: 100 });
+  res.cookie("jwt", "LogOutTokennnn", {
+    maxAge: 100,
+    ...{ sameSite: "none", secure: true },
+  });
   res.status(200).json({ message: "Logged out successfully" });
 };
 module.exports.forcelogin = (req, res) => {
   const { phone, password } = req.body;
   User.forcelogin(phone, password)
     .then((user) => {
-      res.cookie("jwt", user.token, { maxAge: DAY });
+      res.cookie("jwt", user.token, {
+        maxAge: DAY,
+        ...{ sameSite: "none", secure: true },
+      });
       res.json(user.user);
     })
     .catch((err) => {
@@ -117,7 +129,10 @@ module.exports.checkuser = (req, res) => {
   if (!token) return res.status(406).json({ message: "No login token found" });
   jwt.verify(token, process.env.SECRET, (err, decodedToken) => {
     if (err) {
-      res.cookie("jwt", "temp", { maxAge: 100 });
+      res.cookie("jwt", "temp", {
+        maxAge: 100,
+        ...{ sameSite: "none", secure: true },
+      });
       // Not Acceptable
       return res.status(401).json({ message: "Not acceptable token" });
     } else {
@@ -137,7 +152,10 @@ module.exports.checkuser = (req, res) => {
               })
               .catch((err) => {
                 res.status(403).json({ message: "No Login" });
-                res.cookie("jwt", "temp", { maxAge: 100 });
+                res.cookie("jwt", "temp", {
+                  maxAge: 100,
+                  ...{ sameSite: "none", secure: true },
+                });
                 console.log(err);
               });
           }
