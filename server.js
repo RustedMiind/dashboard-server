@@ -16,8 +16,9 @@ app.use(
   cors({
     preflightContinue: true,
     origin: [
-      "http://localhost:3000",
       "https://labdigitalsystem-lds.web.app",
+      "https://labdigitalsystem-lds.web.app/",
+      "https://labdigitalsystem-lds.firebaseapp.com",
       "https://labdigitalsystem-lds.firebaseapp.com/",
     ],
     credentials: true,
